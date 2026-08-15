@@ -142,8 +142,8 @@
   }
   .nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
   .brand{ display:flex; align-items:center; gap:11px; text-decoration:none; }
-  .brand-word{ font-family:var(--font-logo); font-weight:800; font-size:1.1rem; letter-spacing:-.02em; }
-  .brand-word b{ font-weight:800; color:var(--primary); }
+  .brand-word{ font-family:var(--font-logo); font-weight:400; font-size:1.1rem; letter-spacing:-.01em; }
+  .brand-word b{ font-weight:400; color:var(--primary); }
   .nav-links{ display:flex; align-items:center; gap:38px; }
   .nav-links a{
     font-family:var(--font-mono); font-size:12.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
@@ -204,21 +204,25 @@
     overflow:hidden;
   }
   .hero-visual .cap{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; font-family:var(--font-mono); font-weight:600; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); position:relative; z-index:2; }
-  .building-stage{ position:relative; flex:1; margin-block:16px; }
-  .building-svg{ position:absolute; inset:0; width:100%; height:100%; }
-  .bld-skyline{ fill:var(--ink); }
-  .bld-ground{ stroke:var(--ink); stroke-width:1.5; opacity:.28; }
-  .bld-front{ fill:var(--paper); stroke:var(--ink); stroke-width:1.6; }
-  .bld-side{ fill:var(--ink); fill-opacity:.1; stroke:var(--ink); stroke-width:1.6; }
-  .bld-top{ fill:var(--stone); stroke:var(--ink); stroke-width:1.6; }
-  .bld-window{ fill:var(--ink); fill-opacity:.16; }
-  .bld-window.lit{ fill:var(--primary); fill-opacity:.9; }
-  .sign-band{ fill:var(--ink); }
-  .sign-text{ fill:var(--paper); font-family:var(--font-display); font-weight:800; }
-  .sign-text.small{ font-weight:600; }
-  .bld-awning{ fill:var(--primary); }
-  .bld-door{ fill:var(--ink); fill-opacity:.28; stroke:var(--ink); stroke-width:1.4; }
-  .bld-figure{ fill:var(--ink); opacity:.5; }
+  .hero-photo{ position:relative; flex:1; margin-block:16px; border-radius:2px 18px 2px 18px; overflow:hidden; }
+  .hero-photo img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .hero-photo::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(195deg, rgba(23,17,15,.12) 10%, rgba(23,17,15,.62) 100%);
+  }
+  .hero-signage{
+    position:absolute; left:7%; top:14%; z-index:2;
+    display:flex; align-items:center; gap:12px;
+    background:rgba(23,17,15,.82); backdrop-filter:blur(2px);
+    padding:14px 20px; border-radius:2px 14px 2px 14px;
+    box-shadow:0 18px 34px -18px rgba(0,0,0,.55);
+  }
+  .hero-signage .pivot svg{ width:20px; height:20px; }
+  .hero-signage .sign-word{ font-family:var(--font-logo); color:var(--paper); line-height:1; }
+  .hero-signage .sign-word .primary{ font-weight:600; font-size:1.05rem; letter-spacing:-.005em; display:block; }
+  .hero-signage .sign-word .secondary{ font-family:var(--font-mono); font-weight:600; font-size:9.5px; letter-spacing:.24em; text-transform:uppercase; color:rgba(247,245,242,.72); display:block; margin-top:4px; }
+  .photo-credit{ position:absolute; right:14px; bottom:14px; z-index:2; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.04em; color:rgba(247,245,242,.65); }
+  .photo-credit a{ color:inherit; text-decoration:underline; text-underline-offset:2px; }
 
   @media (max-width:880px){
     .hero-grid{ grid-template-columns:1fr; }
@@ -424,51 +428,16 @@
           <span>Elevation — Headquarters</span>
           <span class="pivot" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 20 20"><polygon points="10,1 17,11 3,11" fill="var(--primary)"/><polygon points="3,12.5 17,12.5 10,20" fill="var(--ink)"/></svg></span>
         </div>
-        <div class="building-stage">
-          <svg class="building-svg" id="buildingSvg" viewBox="0 0 520 640" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-            <!-- distant skyline, kept quiet -->
-            <rect class="bld-skyline" x="14" y="360" width="66" height="260" opacity=".06"></rect>
-            <rect class="bld-skyline" x="438" y="410" width="72" height="210" opacity=".06"></rect>
-            <rect class="bld-skyline" x="466" y="470" width="38" height="150" opacity=".04"></rect>
-
-            <!-- ground -->
-            <line class="bld-ground" x1="0" y1="620" x2="520" y2="620"></line>
-
-            <!-- main tower -->
-            <polygon class="bld-top" points="150,180 190,158 410,158 370,180"></polygon>
-            <polygon class="bld-side" points="370,180 410,158 410,598 370,620"></polygon>
-            <rect class="bld-front" x="150" y="180" width="220" height="440"></rect>
-
-            <!-- setback tower -->
-            <polygon class="bld-top" points="230,60 258,45 398,45 370,60"></polygon>
-            <polygon class="bld-side" points="370,60 398,45 398,195 370,180"></polygon>
-            <rect class="bld-front" x="230" y="60" width="140" height="120"></rect>
-
-            <!-- window grids injected by script -->
-            <g id="windowGridMain"></g>
-            <g id="windowGridTop"></g>
-
-            <!-- brand signage band, mounted high on the tower -->
-            <rect class="sign-band" x="160" y="194" width="200" height="50"></rect>
-            <polygon points="179,203 187,215 171,215" fill="var(--primary)"></polygon>
-            <text class="sign-text" x="196" y="223" font-size="21" style="letter-spacing:.005em">ELEVATE</text>
-            <text class="sign-text small" x="196" y="238" font-size="9" style="letter-spacing:.2em">CONSULTING</text>
-
-            <!-- entrance -->
-            <rect class="bld-awning" x="150" y="576" width="220" height="12"></rect>
-            <rect class="bld-door" x="228" y="588" width="30" height="32"></rect>
-            <rect class="bld-door" x="262" y="588" width="30" height="32"></rect>
-
-            <!-- pedestrians, for scale -->
-            <g class="bld-figure">
-              <circle cx="118" cy="601" r="5"></circle>
-              <path d="M118,606 q0,16 -9,20 M118,606 q0,16 9,20" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"></path>
-            </g>
-            <g class="bld-figure">
-              <circle cx="398" cy="603" r="5"></circle>
-              <path d="M398,608 q0,15 -8,18 M398,608 q0,15 8,18" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"></path>
-            </g>
-          </svg>
+        <div class="hero-photo">
+          <img
+            src="https://images.unsplash.com/photo-1745015446589-7ee6f702d8c1?q=80&amp;w=1400&amp;auto=format&amp;fit=crop"
+            alt="Glass facade of a modern corporate office building, reflecting a grid of windows in blue and grey tones."
+            loading="eager" width="1400" height="1750">
+          <div class="hero-signage" aria-hidden="true">
+            <span class="pivot"><svg viewBox="0 0 20 20"><polygon points="10,1 17,11 3,11" fill="var(--primary)"/><polygon points="3,12.5 17,12.5 10,20" fill="var(--paper)"/></svg></span>
+            <span class="sign-word"><span class="primary">Elevate</span><span class="secondary">Consulting</span></span>
+          </div>
+          <span class="photo-credit">Photo: Fabian Kleiser / <a href="https://unsplash.com/photos/V5vF94h52r0" target="_blank" rel="noopener">Unsplash</a></span>
         </div>
         <div class="cap">
           <span>Grounded in fact.</span>
@@ -810,39 +779,6 @@
 <script>
 (function(){
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Building hero — generate window grids
-  (function(){
-    var svgNS = 'http://www.w3.org/2000/svg';
-    function windowGrid(groupId, x0, y0, w, h, cols, rows, gap, litRule){
-      var g = document.getElementById(groupId);
-      if (!g) return;
-      var cellW = (w - gap * (cols + 1)) / cols;
-      var cellH = (h - gap * (rows + 1)) / rows;
-      for (var r = 0; r < rows; r++){
-        for (var c = 0; c < cols; c++){
-          var rect = document.createElementNS(svgNS, 'rect');
-          var x = x0 + gap + c * (cellW + gap);
-          var y = y0 + gap + r * (cellH + gap);
-          rect.setAttribute('x', x.toFixed(1));
-          rect.setAttribute('y', y.toFixed(1));
-          rect.setAttribute('width', cellW.toFixed(1));
-          rect.setAttribute('height', cellH.toFixed(1));
-          rect.setAttribute('class', 'bld-window' + (litRule(r,c) ? ' lit' : ''));
-          g.appendChild(rect);
-        }
-      }
-    }
-    // Main tower: skip the band the signage occupies (rows 1–2 of a 12-row grid)
-    windowGrid('windowGridMain', 150, 180, 220, 440, 6, 12, 9, function(r,c){
-      if (r === 0 || r === 1) return false; // reserved for signage band
-      return (r * 6 + c) % 7 === 0;
-    });
-    // Setback tower
-    windowGrid('windowGridTop', 230, 60, 140, 120, 4, 4, 8, function(r,c){
-      return (r + c) % 5 === 0;
-    });
-  })();
 
   // Nav scroll state
   var header = document.getElementById('siteHeader');
